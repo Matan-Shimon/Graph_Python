@@ -106,6 +106,25 @@ class DiGraph:
             self.MC += 1
             return True
 
+    def get_nodes(self):
+        nodes = []
+        for id,node_data in self.node_map.items():
+            pos = f"{node_data.point.x},{node_data.point.y},{node_data.point.z}"
+            dic = {"pos":pos,"id":id}
+            nodes.append(dic)
+        return nodes
+
+    def get_edges(self):
+        edges = []
+        for src,src_edges in self.edge_map.items():
+            for dest, edge_data in src_edges.items():
+                dic = {"src":src,"w":edge_data.weight,"dest":dest}
+                edges.append(dic)
+        return edges
+
+    def __str__(self):
+        return str(self.edge_map)
+
 if __name__ == '__main__':
     graph = DiGraph()
     graph.add_node(1, (1,1))
