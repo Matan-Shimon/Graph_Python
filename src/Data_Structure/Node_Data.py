@@ -1,12 +1,12 @@
 from Point2D import  Point2D
 
 class Node_Data:
-    def __init__(self, point, weight, node_id, tag, key_track) -> None:
+    def __init__(self, point, weight, node_id, tag) -> None:
         self.weight = weight
         self.node_id = node_id
         self.point = point
         self.tag = tag
-        self.key_track = key_track
+        #self.key_track = 0
 
 
     def getKey(self):
