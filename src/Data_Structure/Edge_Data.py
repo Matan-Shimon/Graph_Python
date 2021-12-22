@@ -26,4 +26,7 @@ class Edge_Data:
     def setWeight(self, w):
         self.weight = w
 
+    def __str__(self):
+        return self.weight
+
 

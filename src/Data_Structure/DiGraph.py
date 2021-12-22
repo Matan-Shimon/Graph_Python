@@ -124,3 +124,26 @@ class DiGraph:
 
     def __str__(self):
         return str(self.edge_map)
+<<<<<<< HEAD
+=======
+
+if __name__ == '__main__':
+    graph = DiGraph()
+    graph.add_node(1, (1,1))
+    graph.add_node(2, (2,2))
+    graph.add_node(3, (2,1))
+    graph.add_node(4, (1,2))
+    graph.add_edge(1,2, 5)
+    graph.add_edge(1,3, 5)
+    graph.add_edge(2,4, 5)
+    graph.add_edge(4,1, 5)
+    print("in: ",graph.all_in_edges_of_node(1))
+    print("out: ",graph.all_out_edges_of_node(1))
+    print(graph.edge_map)
+    graph.remove_edge(2,4)
+    print(graph.edge_map)
+    graph.add_edge(3,2, 5)
+    graph.remove_node(1)
+    print(graph.edge_map)
+
+>>>>>>> b09ca4283e394a55f2e3a2399590fec2fccdeb03

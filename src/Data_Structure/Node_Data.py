@@ -6,6 +6,10 @@ class Node_Data:
         self.node_id = node_id
         self.point = point
         self.tag = tag
+<<<<<<< HEAD
+=======
+        #self.key_track = 0
+>>>>>>> b09ca4283e394a55f2e3a2399590fec2fccdeb03
 
 
     def getKey(self):
