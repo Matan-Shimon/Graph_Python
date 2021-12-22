@@ -193,7 +193,7 @@ class GraphAlgo:
 
 if __name__ == '__main__':
     algo = GraphAlgo()
-    algo.load_from_json("C:\\Users\\matan\\PycharmProjects\\Graph_Python\\data\\A0.json")
+    algo.load_from_json("C:\\Users\\matan\\PycharmProjects\\Graph_Python\\data\\A5.json")
     print(algo.graph)
     algo.save_to_json("check.json")
     algo.plot_graph()
