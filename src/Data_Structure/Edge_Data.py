@@ -1,7 +1,7 @@
 
 class Edge_Data:
     def __init__(self, src, dest, weight, tag) -> None:
-        if weight<0:
+        if weight < 0:
             raise Exception("edge weigh must be positive")
         self.src = src
         self.dest = dest
