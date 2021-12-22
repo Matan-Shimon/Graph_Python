@@ -17,10 +17,10 @@ class Edge_Data:
     def getWeight(self):
         return self.weight
 
-    def getTag(self):
+    def geTag(self):
         return self.tag
 
-    def setTag(self, t):
+    def seTag(self, t):
         self.tag = t
 
     def setWeight(self, w):

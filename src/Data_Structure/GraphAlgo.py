@@ -1,12 +1,14 @@
 from src import GraphInterface
 import heapq
 import sys
-from Point2D import Point2D
+from src.Data_Structure.Point2D import Point2D
 from collections import deque
 from src.Data_Structure.DiGraph import DiGraph
 import json
 import matplotlib.pyplot as plt
 from typing import List
+
+from src.Data_Structure.Node_Data import Node_Data
 
 
 class GraphAlgo:
@@ -18,21 +20,21 @@ class GraphAlgo:
 
 
     def setValue(self):
-        node_dic = self.graph.get_all_v
-        for i in node_dic:
+        # node_dic = self.graph.get_all_v
+        for i in range(0, self.graph.nodeSize):
             node = self.graph.get_node(i)
             node.seTag(0)
-            node.seWeight(sys.maxsize)
+            node.setWeight(sys.maxsize)
 
     def Dijkstra(self, src):
         PQ = []
         self.setValue()
+        self.graph.get_node(src).setWeight(0)
         node = self.graph.get_node(src)
-        self.graph.get_node.setWeight(0)
         heapq.heapify(PQ)
         heapq.heappush(PQ, node)
         while(len(PQ)!=0):
-            node_curr = PQ.pop()
+            node_curr = heapq.heappop(PQ)
             node_src_id = node_curr.getKey()
             if(node_curr.geTag()!=1):
                 edge_dic = self.graph.all_out_edges_of_node(node_src_id)
@@ -47,12 +49,12 @@ class GraphAlgo:
             node_curr.seTag(1)
 
     def G_traspose(self):
-        node_dic = self.graph.get_all_v.keys
+        node_dic = self.graph.get_all_v().keys()
         for src in  node_dic:
             edge = self.graph.all_out_edges_of_node(src)
             for dest, weight in edge.items():
-                edge1 = self.graph.get_edge(src,dest)
-                edge2 = self.graph.get_edge(dest,src)
+                edge1 = self.graph.get_edge(src, dest)
+                edge2 = self.graph.get_edge(dest, src)
                 if(edge1 != None and edge2 != None and edge1.geTag()!= 1 and edge2.geTag()!= 1):
                     temp = edge1.getWeight
                     edge1.setWeight(edge2.getWeight())
@@ -63,14 +65,14 @@ class GraphAlgo:
                     if(edge1.geTag()!=1 and edge2 == None):
                         self.graph.remove_edge(src, dest)
                         self.graph.add_edge(dest, src, weight)
-                        edge2.seTag(1)
+
 
     def BFS(self, src):
         Q = deque()
         node = self.graph.get_node(src)
         node.seTag(1)
         Q.append(src)
-        while(Q.qsize()!=0):
+        while(len(Q) != 0):
             curr = Q.popleft()
             edge_dic = self.graph.all_out_edges_of_node(curr)
             for dest,weight in edge_dic.items():
@@ -84,7 +86,7 @@ class GraphAlgo:
         if(self.graph.v_size==0):
             return False
         self.setValue()
-        node_dict = self.graph.get_all_v.keys
+        node_dict = self.graph.get_all_v().keys()
         self.BFS(0)
         for i in node_dict:
             if(self.graph.get_node(i).geTag()==0):
@@ -97,7 +99,7 @@ class GraphAlgo:
                 return False
         return True
 
-    def shortest_path(self, id1: int, id2: int) -> (float,list):
+    def shortest_path(self, id1: int, id2: int) -> (float, list):
         node_path_reverse = []
         dist = self.Dijkstra(id1)
         if(self.graph.get_node(id2).getWeight != sys.maxsize):
@@ -106,7 +108,7 @@ class GraphAlgo:
             node_path_reverse.append(node_first)
             while(node_first.getKey() != id1):
                 node_dict = self.graph.all_out_edges_of_node(node_first.getKey())
-                for dest,weight in node_dict.items():
+                for dest, weight in node_dict.items():
                     val = weight + self.graph.get_node(dest).getWeight()
                     if(val == node_first.getWeight()):
                         node_first = self.graph.get_node(dest)
@@ -115,7 +117,6 @@ class GraphAlgo:
             self.G_traspose()
             return (float(dist), node_path_reverse)
         else:
-            self.G_traspose()
             return (float(sys.maxsize), node_path_reverse)
 
     def centerPoint(self) -> (int, float):
@@ -123,10 +124,10 @@ class GraphAlgo:
             return (-1, -1.0)
         index = 0
         min = sys.maxsize
-        for i in range(0, self.graph.v_size-1):
+        for i in range(0, self.graph.v_size()):
             self.Dijkstra(i)
             max = -sys.maxsize
-            for j in range(0, self.graph.v_size-1):
+            for j in range(0, self.graph.v_size()):
                 dist = self.graph.get_node(j).getWeight()
                 if(max<dist):
                     max = dist
@@ -194,7 +195,7 @@ class GraphAlgo:
             my_g = json.load(f)
             edges = my_g["Edges"]
             nodes = my_g["Nodes"]
-            print(edges)
+            # print(edges)
             for dic in nodes:
                 spl = dic["pos"].split(",")
                 id = dic["id"]
@@ -230,4 +231,30 @@ class GraphAlgo:
 
     def __str__(self):
         return self.graph
+
+if __name__ == '__main__':
+    algo = GraphAlgo()
+    algo.load_from_json("C:\\Users\yarin\\PycharmProjects\\Ex3\\data\\A0.json")
+    # algo.plot_graph()
+    # print(algo.graph.v_size())
+    # print(algo.isConnected())
+    # algo.Dijkstra(7)
+    # print(algo.graph.get_node(1).getWeight())
+    # print(algo.graph.get_node(17).getWeight())
+    print(algo.centerPoint())
+    # node = Node_Data(Point2D(1,1,1),10,0,0)
+    # node1 = Node_Data(Point2D(1, 1,1), 4, 1, 0)
+    # node2 = Node_Data(Point2D(1, 1,1), 3, 2, 0)
+    # node3 = Node_Data(Point2D(1, 1,1), 1, 3, 0)
+    # R = []
+    # heapq.heapify(R)
+    # heapq.heappush(R, node)
+    # heapq.heappush(R, node1)
+    # heapq.heappush(R, node2)
+    # heapq.heappush(R, node3)
+    # print(R[0].getKey())
+    # node3.setWeight(5)
+    # print(heapq.heappop(R))
+    # print(len(R))
+
 

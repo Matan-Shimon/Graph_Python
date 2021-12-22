@@ -1,5 +1,5 @@
-from Node_Data import Node_Data
-from Edge_Data import Edge_Data
+from src.Data_Structure.Node_Data import Node_Data
+from src.Data_Structure.Edge_Data import Edge_Data
 class DiGraph:
     def __init__(self, nodeSize=0, edgeSize=0, node_map={}, edge_map={}, MC=0) -> None:
         self.nodeSize = nodeSize
@@ -124,8 +124,6 @@ class DiGraph:
 
     def __str__(self):
         return str(self.edge_map)
-<<<<<<< HEAD
-=======
 
 if __name__ == '__main__':
     graph = DiGraph()
@@ -146,4 +144,4 @@ if __name__ == '__main__':
     graph.remove_node(1)
     print(graph.edge_map)
 
->>>>>>> b09ca4283e394a55f2e3a2399590fec2fccdeb03
+
