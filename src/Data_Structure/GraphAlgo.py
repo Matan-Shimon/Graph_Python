@@ -138,8 +138,10 @@ class GraphAlgo:
         self.BFS(0)
         for i in node_dict:
             if(self.graph.get_node(i).geTag()==0):
+                self.setValue()
                 self.G_traspose()
                 return False
+        self.setValue()
         self.G_traspose()
         return True
     """""
