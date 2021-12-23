@@ -33,4 +33,7 @@ class Node_Data:
     def __lt__(self, other):
         return self.weight < other.weight
 
+    def __repr__(self) -> str:
+        return f" id:{self.node_id}"
+
 

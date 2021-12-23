@@ -7,6 +7,7 @@ from src.Data_Structure.DiGraph import DiGraph
 import json
 import matplotlib.pyplot as plt
 from typing import List
+import random
 
 from src.Data_Structure.Node_Data import Node_Data
 
@@ -17,15 +18,37 @@ class GraphAlgo:
 
     def get_graph(self) -> GraphInterface:
         return self.graph
+    """""
+    this function clear the graph basically clearing the node's dict and the edge's dict
+    """""
+    def clear_graph(self):
+        self.graph.edge_map.clear()
+        self.graph.node_map.clear()
+        self.graph.nodeSize = 0
+        self.graph.edgeSize = 0
 
-
+    """""
+    This function set the value int the graph before using some function
+    the function all the tag value to zero and the weight of the Node to MAX_VALUE
+    """""
     def setValue(self):
-        # node_dic = self.graph.get_all_v
         for i in range(0, self.graph.nodeSize):
             node = self.graph.get_node(i)
             node.seTag(0)
             node.setWeight(sys.maxsize)
+        for i in range(0,self.graph.nodeSize):
+            edge_dict = self.graph.all_out_edges_of_node(i)
+            for j in edge_dict.keys():
+                edge = self.graph.get_edge(i, j)
+                edge.seTag(0)
 
+    """""
+    key Starting node
+    This function finding the fastest route from node src to all other node in graph.
+    along the way the function are uptading the node weight which represent how much time.
+    it takes to reach from the node src to other node at the graph in the shortest way.
+    the function will end when we reach all node we can go meaning there is a path.
+    """""
     def Dijkstra(self, src):
         PQ = []
         self.setValue()
@@ -47,7 +70,13 @@ class GraphAlgo:
                             node_dest.setWeight(t)
                         heapq.heappush(PQ, node_dest)
             node_curr.seTag(1)
-
+    """""
+     The graph we want to transpose.
+     we're changing the direction of the edge
+     if the edge existed between two node for both way(a->b,b->) we are just swapping
+     between the edge weight.
+     if only one way existed between the node we're removing the edge and connect it the opposite way.
+    """""
     def G_traspose(self):
         node_dic = self.graph.get_all_v().keys()
         for src in  node_dic:
@@ -56,17 +85,22 @@ class GraphAlgo:
                 edge1 = self.graph.get_edge(src, dest)
                 edge2 = self.graph.get_edge(dest, src)
                 if(edge1 != None and edge2 != None and edge1.geTag()!= 1 and edge2.geTag()!= 1):
-                    temp = edge1.getWeight
+                    temp = edge1.getWeight()
                     edge1.setWeight(edge2.getWeight())
-                    edge2.setWeight(edge1.getWeight())
+                    edge2.setWeight(temp)
                     edge1.seTag(1)
                     edge2.seTag(1)
                 else:
                     if(edge1.geTag()!=1 and edge2 == None):
                         self.graph.remove_edge(src, dest)
                         self.graph.add_edge(dest, src, weight)
+                        self.graph.get_edge(dest,src).seTag(1)
 
-
+    """""
+     The graph we are checking
+     param node starting node for traversal
+     the function doing the classic BFS
+    """""
     def BFS(self, src):
         Q = deque()
         node = self.graph.get_node(src)
@@ -80,6 +114,14 @@ class GraphAlgo:
                     self.graph.get_node(dest).seTag(1)
                     Q.append(dest)
 
+    """""
+     This function check if graph G is strongly connected
+     we going to run DFS twice first time: starting from random vertex v if there is no path from 'v' to all node
+     the graph is not connected. if there is path to every node  we going to run DFS for the second time but now for
+     the graph G transpose and we gonna start DFS with 'v' and if in G transpose 'v' didnt reach all node
+     it means that in the original graph G there is some vertix 'u' who dosent have a path from 'u' to 'v'
+     there for the graph isnt connected if the graph pass both DFS means the graph strongly connected
+    """""
     def isConnected(self) -> bool:
         if(self.graph.v_size==1):
             return True
@@ -91,22 +133,31 @@ class GraphAlgo:
         for i in node_dict:
             if(self.graph.get_node(i).geTag()==0):
                 return False
-        self.G_traspose()
         self.setValue()
+        self.G_traspose()
         self.BFS(0)
         for i in node_dict:
             if(self.graph.get_node(i).geTag()==0):
+                self.G_traspose()
                 return False
+        self.G_traspose()
         return True
-
+    """""
+     * @param id1 - start node
+     * @param id2 - end (target) node
+     * @return tuple first element the minimal time it take to reach from src to dest in the using Dijkstra
+     * second element is a list representing the path between the two nodes
+    """""
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         node_path_reverse = []
-        dist = self.Dijkstra(id1)
-        if(self.graph.get_node(id2).getWeight != sys.maxsize):
+        self.Dijkstra(id1)
+        dist = -1
+        if self.graph.get_node(id2).getWeight != sys.maxsize:
+            dist = self.graph.get_node(id2).getWeight()
             self.G_traspose()
             node_first = self.graph.get_node(id2)
             node_path_reverse.append(node_first)
-            while(node_first.getKey() != id1):
+            while node_first.getKey() != id1:
                 node_dict = self.graph.all_out_edges_of_node(node_first.getKey())
                 for dest, weight in node_dict.items():
                     val = weight + self.graph.get_node(dest).getWeight()
@@ -115,10 +166,20 @@ class GraphAlgo:
                 node_path_reverse.append(node_first)
             node_path_reverse.reverse()
             self.G_traspose()
-            return (float(dist), node_path_reverse)
+            return dist, node_path_reverse
         else:
-            return (float(sys.maxsize), node_path_reverse)
-
+            self.G_traspose()
+            return sys.maxsize, node_path_reverse
+    """""
+     * @return The node center and the radius of the graph
+     * This function finding the center in the graph first we need to check if
+     * the graph is connected if not we return null
+     * after we check it we are going to call to shortestPathDist for each node
+     * and then the weight going to be updated for all node we take the eccentricity which is the longest
+     * distance between this node to other node
+     * after we check all node we are going to choose the node with the smaller eccentricity and this node going to
+     * be the center is graph.
+    """""
     def centerPoint(self) -> (int, float):
         if(self.isConnected()==False):
             return (-1, -1.0)
@@ -135,11 +196,19 @@ class GraphAlgo:
                 min = max
                 index = i
         return (index,min)
-
+    """""
+     * This function return list of NodeData and float for the weight of this path 
+     * the function gets a list of nodes that we are asking to travel somehow in the graph.
+     * the function need to return a list of nodes which represent a path that are visiting
+     * in all the node list we get and we need to find the path with the minimal time
+     * if there is now path from nodes in the list we are getting we gonna return null
+     * the function use dijkstra to hopefully find the shortest path
+     * this is a greedy algorithm and the solution will not be always the best solution.
+    """""
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         if len(node_lst) == 0:
             return None
-        ans = List[int]()
+        ans = []
         ans_weight = 0
         start = sys.maxsize
         min = sys.maxsize
@@ -158,7 +227,8 @@ class GraphAlgo:
             if index != -1:
                 weight = 0
                 for j in range(len(track) - 1):
-                    weight += self.shortest_path(track[j], track[j + 1])[0]
+                    short = self.shortest_path(track[j], track[j + 1])
+                    weight += short[0]
                 if weight < min:
                     right_track.clear()
                     min = weight
@@ -170,10 +240,10 @@ class GraphAlgo:
             l = self.shortest_path(right_track[i], right_track[i + 1])[1]
             if i == 0:
                 for j in range(len(l)):
-                    ans.append(l[j])
+                    ans.append(l[j].node_id)
             else:
                 for j in range(1, len(l)):
-                    ans.append(l[j])
+                    ans.append(l[j].node_id)
         if len(ans) == 0:
             return None
         return ans, ans_weight
@@ -184,30 +254,53 @@ class GraphAlgo:
         min = sys.maxsize
         for i in range(len(cities)):
             if cities[i] not in track:
-                len = self.graph.get_node(cities[i]).weight
-                if len < min:
-                    min = len
+                leng = self.graph.get_node(cities[i]).weight
+                if leng < min:
+                    min = leng
                     next_key = cities[i]
         return next_key
-
+    """""
+     * @param file - file name of JSON file
+     * @return  true if we succeeded to load the graph from the json file to our graph.
+    """""
     def load_from_json(self, file_name: str) -> bool:
-        with open(file_name, "r+") as f:
-            my_g = json.load(f)
-            edges = my_g["Edges"]
-            nodes = my_g["Nodes"]
-            # print(edges)
-            for dic in nodes:
-                spl = dic["pos"].split(",")
-                id = dic["id"]
-                pos = Point2D(float(spl[0]), float(spl[1]), float(spl[2]))
-                self.graph.add_node(id, pos)
-            for dic in edges:
-                src = dic["src"]
-                dest = dic["dest"]
-                weight = dic["w"]
-                self.graph.add_edge(int(src), int(dest), float(weight))
-            return True
+        try:
+            with open(file_name, "r+") as f:
+                self.clear_graph()
+                my_g = json.load(f)
+                edges = my_g["Edges"]
+                nodes = my_g["Nodes"]
+                for dic in nodes:
+                    spl = []
+                    if len(dic.keys()) < 2:
+                        x = random.random()
+                        y = random.random()
+                        x *= 10
+                        y *= 10
+                        z = 0
+                        spl.append(str(x))
+                        spl.append(str(y))
+                        spl.append(str(z))
+                    else:
+                        spl = dic["pos"].split(",")
+                    id = dic["id"]
+                    pos = Point2D(float(spl[0]), float(spl[1]), float(spl[2]))
+                    self.graph.add_node(id, pos)
+                for dic in edges:
+                    src = dic["src"]
+                    dest = dic["dest"]
+                    weight = dic["w"]
+                    self.graph.add_edge(int(src), int(dest), float(weight))
+                return True
+        except:
+            print("wrong file path")
         return False
+
+    """""
+    * @param file - the file name (may include a relative path).
+     * @return true if the graph has been saved to the file
+     * false if something went worng.
+    """""
 
     def save_to_json(self, file_name: str) -> bool:
         edges = self.graph.get_edges()
@@ -232,29 +325,5 @@ class GraphAlgo:
     def __str__(self):
         return self.graph
 
-if __name__ == '__main__':
-    algo = GraphAlgo()
-    algo.load_from_json("C:\\Users\yarin\\PycharmProjects\\Ex3\\data\\A0.json")
-    # algo.plot_graph()
-    # print(algo.graph.v_size())
-    # print(algo.isConnected())
-    # algo.Dijkstra(7)
-    # print(algo.graph.get_node(1).getWeight())
-    # print(algo.graph.get_node(17).getWeight())
-    print(algo.centerPoint())
-    # node = Node_Data(Point2D(1,1,1),10,0,0)
-    # node1 = Node_Data(Point2D(1, 1,1), 4, 1, 0)
-    # node2 = Node_Data(Point2D(1, 1,1), 3, 2, 0)
-    # node3 = Node_Data(Point2D(1, 1,1), 1, 3, 0)
-    # R = []
-    # heapq.heapify(R)
-    # heapq.heappush(R, node)
-    # heapq.heappush(R, node1)
-    # heapq.heappush(R, node2)
-    # heapq.heappush(R, node3)
-    # print(R[0].getKey())
-    # node3.setWeight(5)
-    # print(heapq.heappop(R))
-    # print(len(R))
 
 

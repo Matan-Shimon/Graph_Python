@@ -14,3 +14,6 @@ class Point2D:
     def __str__(self) -> str:
         return f"X = {self.x} Y={self.y} Z = {self.z}"
 
+    def __repr__(self) -> str:
+        return f"X = {self.x} Y={self.y} Z = {self.z}"
+
