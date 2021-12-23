@@ -59,8 +59,8 @@ node size | edge size | build time | isConnected time | center time | transpose 
 # Simulation of python results
 node size | edge size | build time | isConnected time | center time | transpose time
 --- | --- | --- | --- | --- | ---
-1,000| | | | |
-10,000| | | | |
+1,000| 10,000 | 62 ms | 157 ms | 24.888 sec |
+10,000| 100,000 | 429 ms | 1.874 sec | 44.9 sec |
 100,000| | | | |
 1,000,000| | | | |
 
