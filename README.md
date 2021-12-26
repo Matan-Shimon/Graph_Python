@@ -48,31 +48,13 @@ Edge_Data | Present a graph edge.
 DiGraph | Present a graph.
 GraphAlgo | Present a class to perform algorithms on a graph.
 
-# Simulation of java results
-node size | edge size | build time | isConnected time | center time | transpose time
---- | --- | --- | --- | --- | ---
-1,000 | 9,000 | 195 ms | 216 ms | 1.87 sec | 199 ms
-10,000 | 100,000 | 616 ms | 767 ms | 204 sec | 775 ms
-100,000 | 1,000,000 | 4.5 sec | 3.871 sec | - | 3.91 sec
-1,000,000 | 20,000,000 | 25.4 sec | 21.5 sec | - | 22.7 sec
-
-# Simulation of python results
-node size | edge size | build time | isConnected time | center time | transpose time
---- | --- | --- | --- | --- | ---
-1,000| 10,000 | 62 ms | 157 ms | 24.888 sec | 94 ms
-10,000| 100,000 | 429 ms | 1.874 sec | 44.9 sec | 891 ms
-100,000| | | | |
-1,000,000| | | | |
-
 # UML
 ![image](https://user-images.githubusercontent.com/63747865/147159766-86e79915-6cf6-47c0-9be4-bd3bf40d2fea.png)
 
 # How to run
-Run the main.java file, with the right json file that present graph.
-Need to put Ex2.jar(path) ans graph.json(path)
-Template for running the algorithm:
+1. Install python 3 on your pc.
+2. Download (clone) the project.
+3. Run the main class and change the graph path to the path that you want.
 
-java -jar Ex2.jar <grpah json>
-
-# project creators
+# Project creators
 Matan Yarin Shimon & Yarin Hindi
