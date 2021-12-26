@@ -1,3 +1,5 @@
+import greenlet
+
 from src.Data_Structure.DiGraph import DiGraph
 from src.Data_Structure.GraphAlgo import GraphAlgo
 
@@ -21,6 +23,7 @@ def check():
     check0()
     check1()
     check2()
+    check3()
 
 
 def check0():
@@ -45,7 +48,6 @@ def check0():
     g_algo = GraphAlgo(g)
     print(g_algo.shortest_path(0, 3))
     g_algo.plot_graph()
-
 
 def check1():
     """
