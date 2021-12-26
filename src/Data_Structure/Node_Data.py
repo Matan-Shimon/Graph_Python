@@ -1,9 +1,18 @@
+<<<<<<< HEAD
+=======
+from src.Data_Structure.Point2D import Point2D
+
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
 class Node_Data:
     def __init__(self, point, weight, node_id, tag) -> None:
         self.weight = weight
         self.node_id = node_id
         self.point = point
         self.tag = tag
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
 
     def getKey(self):
         return self.node_id
@@ -28,9 +37,16 @@ class Node_Data:
 
     def __lt__(self, other):
         return self.weight < other.weight
+<<<<<<< HEAD
 
     def __str__(self):
         return f"weight: {self.weight}, id: {self.node_id}, point: {self.point}, tag: {self.tag}"
+=======
+
+    def __repr__(self) -> str:
+        return f" id:{self.node_id}"
+
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
 
     def __repr__(self):
         return f"weight: {self.weight}, id: {self.node_id}, point: {self.point}, tag: {self.tag}"

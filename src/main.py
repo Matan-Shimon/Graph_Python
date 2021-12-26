@@ -55,8 +55,10 @@ def check1():
     :return:
     """
     g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
+    # g_algo.clear_graph()
     file = "../data/T0.json"
     g_algo.load_from_json(file)  # init a GraphAlgo from a json file
+    print(g_algo.graph.nodeSize)
     print(g_algo.shortest_path(0, 3))
     print(g_algo.shortest_path(3, 1))
     print(g_algo.centerPoint())

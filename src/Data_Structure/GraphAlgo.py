@@ -6,7 +6,10 @@ from collections import deque
 from src.Data_Structure.DiGraph import DiGraph
 import json
 import matplotlib.pyplot as plt
+<<<<<<< HEAD
 from matplotlib.widgets import *
+=======
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
 from typing import List
 import random
 
@@ -63,7 +66,11 @@ class GraphAlgo:
             node_src_id = node_curr.getKey()
             if(node_curr.geTag()!=1):
                 edge_dic = self.graph.all_out_edges_of_node(node_src_id)
+<<<<<<< HEAD
                 for dest_id, weight in edge_dic.items():
+=======
+                for dest_id,weight in edge_dic.items():
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
                     node_dest = self.graph.get_node(dest_id)
                     edge_weight = weight
                     if(node_dest.geTag()!=1):
@@ -81,7 +88,11 @@ class GraphAlgo:
     """""
     def G_traspose(self):
         node_dic = self.graph.get_all_v().keys()
+<<<<<<< HEAD
         for src in node_dic:
+=======
+        for src in  node_dic:
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
             edge = self.graph.all_out_edges_of_node(src)
             for dest, weight in edge.items():
                 edge1 = self.graph.get_edge(src, dest)
@@ -156,16 +167,28 @@ class GraphAlgo:
         node_path_reverse = []
         self.Dijkstra(id1)
         dist = -1
+<<<<<<< HEAD
         if self.graph.get_node(id2).getWeight() != sys.maxsize:
             dist = self.graph.get_node(id2).getWeight()
             self.G_traspose()
             node_first = self.graph.get_node(id2)
             node_path_reverse.append(node_first.node_id)
+=======
+        if self.graph.get_node(id2).getWeight != sys.maxsize:
+            dist = self.graph.get_node(id2).getWeight()
+            self.G_traspose()
+            node_first = self.graph.get_node(id2)
+            node_path_reverse.append(node_first)
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
             while node_first.getKey() != id1:
                 node_dict = self.graph.all_out_edges_of_node(node_first.getKey())
                 for dest, weight in node_dict.items():
                     val = weight + self.graph.get_node(dest).getWeight()
+<<<<<<< HEAD
                     if val == node_first.getWeight():
+=======
+                    if(val == node_first.getWeight()):
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
                         node_first = self.graph.get_node(dest)
                 node_path_reverse.append(node_first.node_id)
             node_path_reverse.reverse()
@@ -173,7 +196,12 @@ class GraphAlgo:
             self.G_traspose()
             return dist, node_path_reverse
         else:
+<<<<<<< HEAD
             return float('inf'), []
+=======
+            self.G_traspose()
+            return sys.maxsize, node_path_reverse
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
     """""
      * @return The node center and the radius of the graph
      * This function finding the center in the graph first we need to check if
@@ -185,8 +213,13 @@ class GraphAlgo:
      * be the center is graph.
     """""
     def centerPoint(self) -> (int, float):
+<<<<<<< HEAD
         if self.isConnected() == False:
             return -1, -1.0
+=======
+        if(self.isConnected()==False):
+            return (-1, -1.0)
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
         index = 0
         min = sys.maxsize
         for i in range(0, self.graph.v_size()):
@@ -194,12 +227,21 @@ class GraphAlgo:
             max = -sys.maxsize
             for j in range(0, self.graph.v_size()):
                 dist = self.graph.get_node(j).getWeight()
+<<<<<<< HEAD
                 if max < dist:
                     max = dist
             if min > max:
                 min = max
                 index = i
         return index, min
+=======
+                if(max<dist):
+                    max = dist
+            if(min>max):
+                min = max
+                index = i
+        return (index,min)
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
     """""
      * This function return list of NodeData and float for the weight of this path 
      * the function gets a list of nodes that we are asking to travel somehow in the graph.
@@ -244,12 +286,19 @@ class GraphAlgo:
             l = self.shortest_path(right_track[i], right_track[i + 1])[1]
             if i == 0:
                 for j in range(len(l)):
+<<<<<<< HEAD
                     ans.append(l[j])
                     #ans.append(l[j].node_id)
             else:
                 for j in range(1, len(l)):
                     ans.append(l[j])
                     #ans.append(l[j].node_id)
+=======
+                    ans.append(l[j].node_id)
+            else:
+                for j in range(1, len(l)):
+                    ans.append(l[j].node_id)
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
         if len(ans) == 0:
             return None
         return ans, ans_weight
@@ -361,7 +410,10 @@ class GraphAlgo:
          the function draws the current graph.
     """""
     def plot_graph(self) -> None:
+<<<<<<< HEAD
         ps = []
+=======
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
         for src, node_data in self.graph.node_map.items():
             pos = node_data.point
             x, y = pos.x, pos.y
@@ -421,6 +473,7 @@ class GraphAlgo:
         return self.graph
 
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     algo = GraphAlgo()
     algo.load_from_json("C:\\Users\\matan\\PycharmProjects\\Graph_Python\\data\\A0.json")
@@ -444,3 +497,6 @@ if __name__ == '__main__':
     # algo.graph.add_edge(1,3,5)
     # algo.graph.add_edge(3,2,7)
     # algo.plot_graph()
+=======
+
+>>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
