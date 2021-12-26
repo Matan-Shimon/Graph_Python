@@ -6,13 +6,9 @@ from collections import deque
 from src.Data_Structure.DiGraph import DiGraph
 import json
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
 from matplotlib.widgets import *
-=======
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
 from typing import List
 import random
-
 from src.Data_Structure.Node_Data import Node_Data
 
 
@@ -31,7 +27,6 @@ class GraphAlgo:
         self.graph.node_map.clear()
         self.graph.nodeSize = 0
         self.graph.edgeSize = 0
-
     """""
     This function set the value int the graph before using some function
     the function all the tag value to zero and the weight of the Node to MAX_VALUE
@@ -46,7 +41,6 @@ class GraphAlgo:
             for j in edge_dict.keys():
                 edge = self.graph.get_edge(i, j)
                 edge.seTag(0)
-
     """""
     key Starting node
     This function finding the fastest route from node src to all other node in graph.
@@ -61,21 +55,17 @@ class GraphAlgo:
         node = self.graph.get_node(src)
         heapq.heapify(PQ)
         heapq.heappush(PQ, node)
-        while(len(PQ)!=0):
+        while len(PQ) != 0:
             node_curr = heapq.heappop(PQ)
             node_src_id = node_curr.getKey()
-            if(node_curr.geTag()!=1):
+            if node_curr.geTag() != 1:
                 edge_dic = self.graph.all_out_edges_of_node(node_src_id)
-<<<<<<< HEAD
                 for dest_id, weight in edge_dic.items():
-=======
-                for dest_id,weight in edge_dic.items():
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
                     node_dest = self.graph.get_node(dest_id)
                     edge_weight = weight
-                    if(node_dest.geTag()!=1):
+                    if node_dest.geTag() != 1:
                         t = weight+node_curr.getWeight()
-                        if(node_dest.getWeight()>t):
+                        if node_dest.getWeight() > t:
                             node_dest.setWeight(t)
                         heapq.heappush(PQ, node_dest)
             node_curr.seTag(1)
@@ -88,27 +78,22 @@ class GraphAlgo:
     """""
     def G_traspose(self):
         node_dic = self.graph.get_all_v().keys()
-<<<<<<< HEAD
         for src in node_dic:
-=======
-        for src in  node_dic:
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
             edge = self.graph.all_out_edges_of_node(src)
             for dest, weight in edge.items():
                 edge1 = self.graph.get_edge(src, dest)
                 edge2 = self.graph.get_edge(dest, src)
-                if(edge1 != None and edge2 != None and edge1.geTag()!= 1 and edge2.geTag()!= 1):
+                if edge1 != None and edge2 != None and edge1.geTag()!= 1 and edge2.geTag()!= 1:
                     temp = edge1.getWeight()
                     edge1.setWeight(edge2.getWeight())
                     edge2.setWeight(temp)
                     edge1.seTag(1)
                     edge2.seTag(1)
                 else:
-                    if(edge1.geTag()!=1 and edge2 == None):
+                    if edge1.geTag() != 1 and edge2 == None:
                         self.graph.remove_edge(src, dest)
                         self.graph.add_edge(dest, src, weight)
                         self.graph.get_edge(dest,src).seTag(1)
-
     """""
      The graph we are checking
      param node starting node for traversal
@@ -119,14 +104,13 @@ class GraphAlgo:
         node = self.graph.get_node(src)
         node.seTag(1)
         Q.append(src)
-        while(len(Q) != 0):
+        while len(Q) != 0:
             curr = Q.popleft()
             edge_dic = self.graph.all_out_edges_of_node(curr)
             for dest,weight in edge_dic.items():
-                if(self.graph.get_node(dest)!=None and self.graph.get_node(dest).geTag()==0):
+                if self.graph.get_node(dest) != None and self.graph.get_node(dest).geTag() == 0:
                     self.graph.get_node(dest).seTag(1)
                     Q.append(dest)
-
     """""
      This function check if graph G is strongly connected
      we going to run DFS twice first time: starting from random vertex v if there is no path from 'v' to all node
@@ -136,21 +120,21 @@ class GraphAlgo:
      there for the graph isnt connected if the graph pass both DFS means the graph strongly connected
     """""
     def isConnected(self) -> bool:
-        if(self.graph.v_size==1):
+        if self.graph.v_size == 1:
             return True
-        if(self.graph.v_size==0):
+        if self.graph.v_size == 0:
             return False
         self.setValue()
         node_dict = self.graph.get_all_v().keys()
         self.BFS(0)
         for i in node_dict:
-            if(self.graph.get_node(i).geTag()==0):
+            if self.graph.get_node(i).geTag() == 0:
                 return False
         self.setValue()
         self.G_traspose()
         self.BFS(0)
         for i in node_dict:
-            if(self.graph.get_node(i).geTag()==0):
+            if self.graph.get_node(i).geTag() == 0:
                 self.setValue()
                 self.G_traspose()
                 return False
@@ -167,28 +151,16 @@ class GraphAlgo:
         node_path_reverse = []
         self.Dijkstra(id1)
         dist = -1
-<<<<<<< HEAD
         if self.graph.get_node(id2).getWeight() != sys.maxsize:
             dist = self.graph.get_node(id2).getWeight()
             self.G_traspose()
             node_first = self.graph.get_node(id2)
             node_path_reverse.append(node_first.node_id)
-=======
-        if self.graph.get_node(id2).getWeight != sys.maxsize:
-            dist = self.graph.get_node(id2).getWeight()
-            self.G_traspose()
-            node_first = self.graph.get_node(id2)
-            node_path_reverse.append(node_first)
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
             while node_first.getKey() != id1:
                 node_dict = self.graph.all_out_edges_of_node(node_first.getKey())
                 for dest, weight in node_dict.items():
                     val = weight + self.graph.get_node(dest).getWeight()
-<<<<<<< HEAD
                     if val == node_first.getWeight():
-=======
-                    if(val == node_first.getWeight()):
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
                         node_first = self.graph.get_node(dest)
                 node_path_reverse.append(node_first.node_id)
             node_path_reverse.reverse()
@@ -196,12 +168,7 @@ class GraphAlgo:
             self.G_traspose()
             return dist, node_path_reverse
         else:
-<<<<<<< HEAD
             return float('inf'), []
-=======
-            self.G_traspose()
-            return sys.maxsize, node_path_reverse
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
     """""
      * @return The node center and the radius of the graph
      * This function finding the center in the graph first we need to check if
@@ -213,13 +180,8 @@ class GraphAlgo:
      * be the center is graph.
     """""
     def centerPoint(self) -> (int, float):
-<<<<<<< HEAD
         if self.isConnected() == False:
-            return -1, -1.0
-=======
-        if(self.isConnected()==False):
-            return (-1, -1.0)
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
+            return None, float('inf')
         index = 0
         min = sys.maxsize
         for i in range(0, self.graph.v_size()):
@@ -227,21 +189,12 @@ class GraphAlgo:
             max = -sys.maxsize
             for j in range(0, self.graph.v_size()):
                 dist = self.graph.get_node(j).getWeight()
-<<<<<<< HEAD
                 if max < dist:
                     max = dist
             if min > max:
                 min = max
                 index = i
         return index, min
-=======
-                if(max<dist):
-                    max = dist
-            if(min>max):
-                min = max
-                index = i
-        return (index,min)
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
     """""
      * This function return list of NodeData and float for the weight of this path 
      * the function gets a list of nodes that we are asking to travel somehow in the graph.
@@ -264,7 +217,7 @@ class GraphAlgo:
             count = 1
             index = node_lst[i]
             track.append(index)
-            while (count < len(node_lst)):
+            while count < len(node_lst):
                 index = self.rec(index, track, node_lst)
                 if index == -1:
                     break
@@ -286,19 +239,10 @@ class GraphAlgo:
             l = self.shortest_path(right_track[i], right_track[i + 1])[1]
             if i == 0:
                 for j in range(len(l)):
-<<<<<<< HEAD
                     ans.append(l[j])
-                    #ans.append(l[j].node_id)
             else:
                 for j in range(1, len(l)):
                     ans.append(l[j])
-                    #ans.append(l[j].node_id)
-=======
-                    ans.append(l[j].node_id)
-            else:
-                for j in range(1, len(l)):
-                    ans.append(l[j].node_id)
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
         if len(ans) == 0:
             return None
         return ans, ans_weight
@@ -350,20 +294,17 @@ class GraphAlgo:
         except:
             print("wrong file path")
         return False
-
     """""
     * @param file - the file name (may include a relative path).
      * @return true if the graph has been saved to the file
      * false if something went worng.
     """""
-
     def save_to_json(self, file_name: str) -> bool:
         edges = self.graph.get_edges()
         nodes = self.graph.get_nodes()
         dic = {"Edges": edges, "Nodes": nodes}
         with open(file_name, 'w') as f:
             json.dump(dic, indent=2, fp=f)
-
     """""
         * @param event - the string of the given nodes (example: 4,2).
          the function draws the shortest path between the two nodes in green
@@ -382,9 +323,8 @@ class GraphAlgo:
             desti_pos = desti.point
             desti_x = desti_pos.x
             desti_y = desti_pos.y
-            self.ax.annotate("", xy=(source_x, source_y), xytext=(desti_x, desti_y), arrowprops=dict(arrowstyle="<-", color="green"))
+            self.ax.annotate("", xy=(source_x, source_y), xytext=(desti_x, desti_y), arrowprops=dict(arrowstyle="<-", color="orange"))
         plt.show()
-
     """""
         * @param event - the string of the given nodes (example: 2,9,7).
          the function draws the shortest path between the nodes in yellow
@@ -405,15 +345,11 @@ class GraphAlgo:
             desti_y = desti_pos.y
             self.ax.annotate("", xy=(source_x, source_y), xytext=(desti_x, desti_y), arrowprops=dict(arrowstyle="<-", color="yellow"))
         plt.show()
-
     """""
          the function draws the current graph.
     """""
     def plot_graph(self) -> None:
-<<<<<<< HEAD
         ps = []
-=======
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8
         for src, node_data in self.graph.node_map.items():
             pos = node_data.point
             x, y = pos.x, pos.y
@@ -426,20 +362,20 @@ class GraphAlgo:
                 plt.annotate("", xy=(x, y), xytext=(x_, y_), arrowprops=dict(arrowstyle="<-"))
         center = self.centerPoint()[0]
         axButton1 = plt.axes([0.68, 0.92, 0.1, 0.04])  # left, bottom, width, height
-        bt1 = Button(ax=axButton1, label='Center', hovercolor='Orange')
-
+        bt1 = Button(ax=axButton1, label='Center', hovercolor='pink')
         """""
             * @param event - the event present that the button "original" has been clicked,
             and there for the function will apply directly.
-             the function draws the center node in prange.
+             the function draws the center node in pink.
         """""
         def center_color(event):
-            ps[center].set_color("orange")
+            if center is not None:
+                ps[center].set_color("pink")
             plt.draw()
         bt1.on_clicked(center_color)
 
         box_loc = plt.axes([0.18, 0.92, 0.17, 0.04])  # left, bottom, width, height
-        text_box = TextBox(box_loc, 'Shortest_Path', initial="Insert id1,id2", hovercolor='green')
+        text_box = TextBox(box_loc, 'Shortest_Path', initial="Insert id1,id2", hovercolor='orange')
         text_box.on_submit(self.draw_sp)
 
         box_loc2 = plt.axes([0.41, 0.92, 0.25, 0.04])  # left, bottom, width, height
@@ -448,14 +384,14 @@ class GraphAlgo:
 
         axButton4 = plt.axes([0.8, 0.92, 0.1, 0.04])  # left, bottom, width, height
         bt4 = Button(ax=axButton4, label='Original')
-
         """""
             * @param event - the event present that the button "original" has been clicked,
             and there for the function will apply directly.
              the function draws the original graph.
         """""
         def original_color(event):
-            ps[center].set_color("blue")
+            if center is not None:
+                ps[center].set_color("blue")
             for src, node_data in self.graph.node_map.items():
                 pos = node_data.point
                 x, y = pos.x, pos.y
@@ -471,32 +407,3 @@ class GraphAlgo:
 
     def __str__(self):
         return self.graph
-
-
-<<<<<<< HEAD
-if __name__ == '__main__':
-    algo = GraphAlgo()
-    algo.load_from_json("C:\\Users\\matan\\PycharmProjects\\Graph_Python\\data\\A0.json")
-    # print(algo.graph)
-    algo.G_traspose()
-    algo.setValue()
-    algo.G_traspose()
-    algo.save_to_json("check.json")
-    # print(algo.centerPoint())
-    algo.plot_graph()
-    # node = Node_Data(Point2D(1, 1, 1), 10, 0, 0)
-    # node1 = Node_Data(Point2D(1, 1,1), 4, 1, 0)
-    # node2 = Node_Data(Point2D(1, 1,1), 3, 2, 0)
-    # node3 = Node_Data(Point2D(1, 1,1), 1, 3, 0)
-    # algo.graph.add_node(0, Point2D(0,0,0))
-    # algo.graph.add_node(1, Point2D(10,10,0))
-    # algo.graph.add_node(2, Point2D(3,3,0))
-    # algo.graph.add_node(3, Point2D(15,2,0))
-    # algo.graph.add_edge(0,1,4)
-    # algo.graph.add_edge(1,0,3)
-    # algo.graph.add_edge(1,3,5)
-    # algo.graph.add_edge(3,2,7)
-    # algo.plot_graph()
-=======
-
->>>>>>> 6afd47c45e76f3b493cf1938f735de0460255cc8

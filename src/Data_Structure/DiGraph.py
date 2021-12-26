@@ -2,6 +2,19 @@ from src.Data_Structure.Node_Data import Node_Data
 from src.Data_Structure.Edge_Data import Edge_Data
 from src.Data_Structure.Point2D import Point2D
 import random
+
+class Node:
+    out_edges = 0
+    in_edges = 0
+    node_id = 0
+
+    def __init__(self):
+        pass
+
+    def __repr__(self):
+        return f"{self.node_id}: |edges_out| {self.out_edges} |edges in| {self.in_edges}"
+
+
 class DiGraph:
     """""
    node_map - gonna represent the node by a hash map,the key gonna be the node.key and the value gonna be the NodeData
@@ -32,7 +45,11 @@ class DiGraph:
         for node, node_data in self.node_map.items():
             from_node = len(self.all_out_edges_of_node(node))
             to_node = len(self.all_in_edges_of_node(node))
-            v_dic[node] = f"{node}: | edges out | {from_node} | edges in | {to_node}"
+            N = Node()
+            N.node_id = node
+            N.out_edges = from_node
+            N.in_edges = to_node
+            v_dic[node] = N
         return v_dic
     """""
     Return the node by the key if not existed return None
@@ -173,7 +190,7 @@ class DiGraph:
         return edges
 
     def __str__(self):
-        return f"Graph |V|={self.nodeSize} , |E|={self.edgeSize}"
+        return f"Graph: |V|={self.nodeSize} , |E|={self.edgeSize}"
 
     def __repr__(self):
-        return f"Graph |V|={self.nodeSize} , |E|={self.edgeSize}"
+        return f"Graph: |V|={self.nodeSize} , |E|={self.edgeSize}"
