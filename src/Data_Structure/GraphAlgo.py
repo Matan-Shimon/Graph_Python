@@ -206,7 +206,7 @@ class GraphAlgo:
     """""
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         if len(node_lst) == 0:
-            return None
+            return float('inf'), []
         ans = []
         ans_weight = 0
         start = sys.maxsize
@@ -243,8 +243,8 @@ class GraphAlgo:
             else:
                 for j in range(1, len(l)):
                     ans.append(l[j])
-        if len(ans) == 0:
-            return None
+        if len(ans) == 0 or len(ans) < len(node_lst):
+            return float('inf'), []
         return ans, ans_weight
 
     def rec(self, id, track, cities):
