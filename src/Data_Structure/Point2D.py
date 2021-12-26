@@ -1,4 +1,3 @@
-
 class Point2D:
 
     def __init__(self, x, y, z) -> None:
@@ -16,4 +15,3 @@ class Point2D:
 
     def __repr__(self) -> str:
         return f"X = {self.x} Y={self.y} Z = {self.z}"
-

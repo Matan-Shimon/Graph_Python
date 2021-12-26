@@ -3,17 +3,6 @@ from src.Data_Structure.Edge_Data import Edge_Data
 from src.Data_Structure.Point2D import Point2D
 import random
 
-class Node:
-    out_edges = 0
-    in_edges = 0
-    node_id = 0
-
-    def __init__(self):
-        pass
-
-    def __repr__(self):
-        return f"{self.node_id}: |edges_out| {self.out_edges} |edges in| {self.in_edges}"
-
 
 class DiGraph:
     """""
@@ -45,8 +34,7 @@ class DiGraph:
         for node, node_data in self.node_map.items():
             from_node = len(self.all_out_edges_of_node(node))
             to_node = len(self.all_in_edges_of_node(node))
-            N = Node()
-            N.node_id = node
+            N = self.get_node(node)
             N.out_edges = from_node
             N.in_edges = to_node
             v_dic[node] = N

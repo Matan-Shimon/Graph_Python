@@ -1,10 +1,11 @@
-from src.Data_Structure.Point2D import Point2D
 class Node_Data:
     def __init__(self, point, weight, node_id, tag) -> None:
         self.weight = weight
         self.node_id = node_id
         self.point = point
         self.tag = tag
+        self.out_edges = 0
+        self.in_edges = 0
 
     def getKey(self):
         return self.node_id
@@ -33,8 +34,5 @@ class Node_Data:
     def __str__(self):
         return f"weight: {self.weight}, id: {self.node_id}, point: {self.point}, tag: {self.tag}"
 
-    #def __repr__(self) -> str:
-    #    return f" id:{self.node_id}"
-
     def __repr__(self):
-        return f"weight: {self.weight}, id: {self.node_id}, point: {self.point}, tag: {self.tag}"
+        return f"{self.node_id}: |edges_out| {self.out_edges} |edges in| {self.in_edges}"
